@@ -28,22 +28,27 @@ directory home_dir do
   group     group_name
   recursive true
 end
+case platform
+when "redhat", "centos", "scientific", "amazon"
+when "ubuntu"
+  template "/etc/init/#{service_name}.conf" do
+    source "service.conf.erb"
+    mode   "0644"
+    owner  "root"
+    group  "root"
+    variables({
+      :port  => config['port'],
+      :user  => user_name,
+      :group => group_name,
+      :home  => home_dir
+    })
+  end
 
-template "/etc/init/#{service_name}.conf" do
-  source "service.conf.erb"
-  mode   "0644"
-  owner  "root"
-  group  "root"
-  variables({
-    :port  => config['port'],
-    :user  => user_name,
-    :group => group_name,
-    :home  => home_dir
-  })
-end
-
-service service_name do
-  provider Chef::Provider::Service::Upstart
-  supports :status => true, :restart => true, :reload => true
-  action   [:enable, :start]
+  service service_name do
+    provider Chef::Provider::Service::Upstart
+    supports :status => true, :restart => true, :reload => true
+    action   [:enable, :start]
+  end
+else
+  raise "Platform #{platform} not supported! (yet)"
 end
