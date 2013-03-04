@@ -30,6 +30,24 @@ directory home_dir do
 end
 case platform
 when "redhat", "centos", "scientific", "amazon"
+  template "/etc/init.d/#{service_name}" do
+    source "service.centos.erb"
+    mode   "0755"
+    owner  "root"
+    group  "root"
+    variables({
+      :port  => config['port'],
+      :user  => user_name,
+      :group => group_name,
+      :home  => home_dir
+    })
+  end
+
+  service service_name do
+#    provider Chef::Provider::Service::Upstart
+    supports :status => true, :restart => true, :reload => true
+    action   [:enable, :start]
+  end
 when "ubuntu"
   template "/etc/init/#{service_name}.conf" do
     source "service.conf.erb"
