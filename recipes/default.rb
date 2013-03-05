@@ -33,8 +33,16 @@ file "/var/log/pyapns.log" do
   action :create
   owner user_name
   group group_name
+  mode 00600
+end
+
+file "/var/run/pyapns.pid" do
+  action :create
+  owner user_name
+  group group_name
   mode 00644
 end
+
 
 
 case node['platform']
