@@ -28,7 +28,8 @@ directory home_dir do
   group     group_name
   recursive true
 end
-case platform
+
+case node['platform']
 when "redhat", "centos", "scientific", "amazon"
   template "/etc/init.d/#{service_name}" do
     source "service.centos.erb"
