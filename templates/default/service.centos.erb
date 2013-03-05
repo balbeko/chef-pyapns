@@ -33,7 +33,7 @@ start(){
   
   pid=''
   
-  su - <%= @user %> -c "twistd --logfile=/var/log/pyapns.log --pidfile=/var/run/pyapns.pid -r epoll web --class=pyapns.server.APNSServer --port=<%= @port %>"
+  twistd --logfile=/var/log/pyapns.log --pidfile=/var/run/pyapns.pid -r epoll web --class=pyapns.server.APNSServer --port=<%= @port %>
   
   sleep 2
   
