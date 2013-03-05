@@ -33,7 +33,7 @@ file "/var/log/pyapns.log" do
   action :create
   owner user_name
   group group_name
-  mode 00600
+  mode 00666
 end
 
 file "/var/run/pyapns.pid" do
