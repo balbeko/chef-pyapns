@@ -29,6 +29,14 @@ directory home_dir do
   recursive true
 end
 
+file "/var/log/pyapns.log" do
+  action :create
+  owner user_name
+  group group_name
+  mode 00644
+end
+
+
 case node['platform']
 when "redhat", "centos", "scientific", "amazon"
   template "/etc/init.d/#{service_name}" do
