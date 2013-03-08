@@ -31,16 +31,9 @@ end
 
 file "/var/log/pyapns.log" do
   action :create
-  owner user_name
-  group group_name
-  mode 00666
-end
-
-file "/var/run/pyapns.pid" do
-  action :create
-  owner user_name
-  group group_name
-  mode 00644
+  owner "root"
+  group "root"
+  mode 00600
 end
 
 
@@ -61,7 +54,6 @@ when "redhat", "centos", "scientific", "amazon"
   end
 
   service service_name do
-#    provider Chef::Provider::Service::Upstart
     supports :status => true, :restart => true, :reload => true
     action   [:enable, :start]
   end
